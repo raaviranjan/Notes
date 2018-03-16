@@ -17,6 +17,9 @@ import android.widget.Toast;
 import java.util.List;
 import com.example.ravi.isnotes.database.DatabaseHandler;
 import com.example.ravi.isnotes.database.models.Note;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 
 /**
  * Created by Ravi on 01-Jul-17.
@@ -27,11 +30,18 @@ public class EditNoteActivity extends AppCompatActivity {
     String title,description;
     int noteId;
     Boolean isUpdateMode;
+    AdView mAdView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_note);
+
+        MobileAds.initialize(this, "ca-app-pub-3940256099942544~3347511713");
+        mAdView = findViewById(R.id.adView2);
+        //banner ad
+        AdRequest adRequest = new AdRequest.Builder().addTestDevice("50F7BD1535D4AA905405E185DB25BBB7").build();
+        mAdView.loadAd(adRequest);
 
         isUpdateMode=false;
 
@@ -107,11 +117,11 @@ public class EditNoteActivity extends AppCompatActivity {
         DatabaseHandler databaseHandler = new DatabaseHandler(this);
         if(!isUpdateMode){
             databaseHandler.addNote(note);
-            Toast.makeText(this, "Note Added Successfully", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Note Added Successfully", Toast.LENGTH_SHORT).show();
         } else {
             note.setId(noteId);
             databaseHandler.updateNote(note);
-            Toast.makeText(this, "Note Updated Successfully", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Note Updated Successfully", Toast.LENGTH_SHORT).show();
         }
 
         List<Note> notes = databaseHandler.getAllNotes();

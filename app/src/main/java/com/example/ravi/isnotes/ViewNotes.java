@@ -14,6 +14,9 @@ import android.widget.TextView;
 
 import com.example.ravi.isnotes.database.DatabaseHandler;
 import com.example.ravi.isnotes.database.models.Note;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 
 import java.util.List;
 
@@ -24,10 +27,17 @@ import java.util.List;
 public class ViewNotes extends AppCompatActivity {
     TextView viewTitle,viewDescription;
     Bundle bundle;
+    AdView mAdView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view_note);
+
+        MobileAds.initialize(this, "ca-app-pub-3940256099942544~3347511713");
+        mAdView = findViewById(R.id.adView1);
+        //banner ad
+        AdRequest adRequest = new AdRequest.Builder().addTestDevice("50F7BD1535D4AA905405E185DB25BBB7").build();
+        mAdView.loadAd(adRequest);
 
         //to change font to avenir
         Typeface custom_font = Typeface.createFromAsset(getAssets(),  "fonts/avenir roman.otf");
